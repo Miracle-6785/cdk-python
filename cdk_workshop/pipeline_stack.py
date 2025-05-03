@@ -24,7 +24,9 @@ class WorkshopPipelineStack(Stack):
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
                     "pip install uv",
                     "uv sync",
-                    "bash -c 'source .venv/bin/activate && cdk synth'",
+                    "pwd",
+                    "ls -la",
+                    # "bash -c 'source .venv/bin/activate && cdk synth'",
                 ],
             ),
         )
