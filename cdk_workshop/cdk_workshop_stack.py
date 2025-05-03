@@ -1,4 +1,4 @@
-from aws_cdk import Duration, Stack
+from aws_cdk import CfnOutput, Duration, Stack
 from aws_cdk import aws_apigateway as apigw
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_lambda as _lambda
@@ -13,6 +13,14 @@ from cdk_workshop.hitcounter import HitCounter
 
 class CdkWorkshopStack(Stack):
 
+    @property
+    def hc_endpoint(self):
+        return self._hc_endpoint
+
+    @property
+    def hc_viewer_url(self):
+        return self._hc_viewer_url
+
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
@@ -26,8 +34,14 @@ class CdkWorkshopStack(Stack):
 
         hello_with_counter = HitCounter(self, "HelloHitCounter", downstream=my_lambda)
 
-        apigw.LambdaRestApi(self, "gwHello", handler=hello_with_counter.handler)
+        gateway = apigw.LambdaRestApi(
+            self, "gwHello", handler=hello_with_counter.handler
+        )
 
-        TableViewer(
+        tv = TableViewer(
             self, "ViewHitCounter", title="Hello Hits", table=hello_with_counter.table
         )
+
+        self._hc_endpoint = CfnOutput(self, "GatewayUrl", value=gateway.url)
+
+        self._hc_viewer_url = CfnOutput(self, "TableViewerUrl", value=tv.endpoint)
