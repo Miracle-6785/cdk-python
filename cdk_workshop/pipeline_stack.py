@@ -21,9 +21,9 @@ class WorkshopPipelineStack(Stack):
                     connection_arn="arn:aws:codeconnections:ap-southeast-1:637423223528:connection/2d86ea02-e6cf-4f33-893a-714c7818686c",
                 ),
                 commands=[
-                    "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
-                    "pip install uv",
-                    "uv sync",
+                    # "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
+                    # "pip install uv",
+                    # "uv sync",
                     "pwd",
                     "ls -la",
                     # "bash -c 'source .venv/bin/activate && cdk synth'",
